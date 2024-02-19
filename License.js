@@ -48,11 +48,10 @@ class License{
     generateMarkdown() {
         return `## License 
 
-        This project is licensed under the ${this.name} License.
-        [![License: ${this.name}](${this.svg})]
-        Find more about this license here: ${this.link}.
+This project is licensed under the ${this.name} License.
+![License: ${this.name}](${this.svg})
+Find more about this license here: ${this.link}.
 
-        ---
         `;
     }
 }

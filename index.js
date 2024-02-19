@@ -2,103 +2,152 @@ const fs = require('fs');
 const inq = require('inquirer');
 const License = require('./License.js');
 
-inq
-  .prompt([
-    {
-    type: 'input',
-    message: 'What is your github username?',
-    name: 'github',
-  },
-  {
-    type: 'input',
-    message: 'What is your email address?',
-    name: 'email',
-  },
-  {
-    type: 'input',
-    message: 'What is your Project Name?',
-    name: 'name',
-  },
-  {
-    type: 'input',
-    message: 'What command should be run to run tests?',
-    name: 'test',
-  },
-  {
-    type: 'input',
-    message: 'What command should be run to install dependencies?',
-    name: 'insDep',
-  },
-  {
-    type: 'input',
-    message: 'What command should be run to run tests?',
-    name: 'test',
-  },
-  {
-    type: 'input',
-    message: 'Outline the installation instructions.',
-    name: 'install',
-  },
-  {
-    type: 'input',
-    message: 'Outline the Usage of this app.',
-    name: 'usage',
-  },
-  {
-    type: 'input',
-    message: 'Did anyone else contribute to this project?',
-    name: 'credits',
-  },
-  {
-    type: 'list',
-    message: 'Choose Licence.',
-    choices: [
+
+function init(){
+
+
+  inq
+    .prompt([
       {
-        name: 'Apache License 2.0',
-        value: 'apache',
+        type: 'input',
+        message: 'What is your github username?',
+        name: 'github',
       },
       {
-        name: 'GNU v3.0',
-        value: 'gnu',
+        type: 'input',
+        message: 'What is your email address?',
+        name: 'email',
       },
       {
-        name: 'BSD 2',
-        value: 'bsd2',
+        type: 'input',
+        message: 'What is your Project Name?',
+        name: 'name',
       },
       {
-        name: 'BSD 3',
-        value: 'bsd3',
+        type: 'input',
+        message: 'Provide a brief description of the project',
+        name: 'desc',
       },
       {
-        name: 'MIT License',
-        value: 'mit',
-      }
-    ],
-    name: 'license',
-  },
-])
-  .then((data) => {
+        type: 'input',
+        message: 'What command should be run to run tests?',
+        name: 'test',
+      },
+      {
+        type: 'input',
+        message: 'What command should be run to install dependencies?',
+        name: 'insDep',
+      },
+      {
+        type: 'input',
+        message: 'What command should be run to run tests?',
+        name: 'test',
+      },
+      {
+        type: 'input',
+        message: 'Outline the installation instructions.',
+        name: 'install',
+      },
+      {
+        type: 'input',
+        message: 'Outline the Usage of this app.',
+        name: 'usage',
+      },
+      {
+        type: 'input',
+        message: 'Did anyone else contribute to this project?',
+        name: 'credits',
+      },
+      {
+        type: 'list',
+        message: 'Choose Licence.',
+        choices: [
+          {
+            name: 'Apache License 2.0',
+            value: 'apache',
+          },
+          {
+            name: 'GNU v3.0',
+            value: 'gnu',
+          },
+          {
+            name: 'BSD 2',
+            value: 'bsd2',
+          },
+          {
+            name: 'BSD 3',
+            value: 'bsd3',
+          },
+          {
+            name: 'MIT License',
+            value: 'mit',
+          }
+        ],
+        name: 'license',
+      },
+    ])
+    .then((data) => {
 
-  
+    let license = new License(data.license);
+    let licenseMarkdown = license.generateMarkdown();
 
-  });
+    const content = `
+# ${data.name}
+![License: ${license.name}](${license.svg})
 
- 
+## Description
 
-// // TODO: Include packages needed for this application
+${data.desc}
 
-// // TODO: Create an array of questions for user input
-// const questions = [];
 
-// // TODO: Create a function to write README file
-// function writeToFile(fileName, data) {
+## Table of Contents 
 
-  //  fs.writeFile('readme.md', content, (err) =>
-  //  err ? console.error(err) : console.log('Success!'));
-//}
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
 
-// // TODO: Create a function to initialize app
-// function init() {}
+## Installation
+${data.install}
 
-// // Function call to initialize app
-// init();
+How do I install Dependencies?
+${data.insDep}
+
+## Usage
+
+${data.usage}
+
+## Credits
+
+${data.credits}
+
+
+${licenseMarkdown}
+
+## Tests
+
+How do I run tests?
+${data.test}
+
+## Questions
+
+Please direct your questions towards Ben at:
+Github: ${data.github}
+Email: ${data.email}
+
+    `
+
+    writeToFile('readme.md', content);// Write the content to file 
+
+    });
+
+} 
+init();
+
+// Write to file function
+function writeToFile(fileName, data) {
+
+   fs.writeFile(fileName, data, (err) =>
+   err ? console.error(err) : console.log('Success!'));
+}
+
