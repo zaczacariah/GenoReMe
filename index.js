@@ -5,7 +5,7 @@ const License = require('./License.js');
 
 function init(){
 
-
+// Begin prompts
   inq
     .prompt([
       {
@@ -88,9 +88,10 @@ function init(){
     ])
     .then((data) => {
 
-    let license = new License(data.license);
-    let licenseMarkdown = license.generateMarkdown();
+    let license = new License(data.license); // Create new License with the type specified in prompts
+    let licenseMarkdown = license.generateMarkdown(); // Generate markdown for license section
 
+    // Create content 
     const content = `
 # ${data.name}
 ![License: ${license.name}](${license.svg})
@@ -136,13 +137,13 @@ Github: ${data.github}
 Email: ${data.email}
 
     `
-
+      // Write to file called readme.md
     writeToFile('readme.md', content);// Write the content to file 
 
     });
 
 } 
-init();
+init(); //Run init
 
 // Write to file function
 function writeToFile(fileName, data) {
