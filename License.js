@@ -1,4 +1,4 @@
-
+// Define licenses
 const licenses = {
     apache: {
         name: "Apache 2.0",
@@ -27,8 +27,9 @@ const licenses = {
     }
 }
 
-class License{
 
+class License{
+    // Create new license based on a type
    constructor(license){
 
     if(license == "" || !license){ // Default to Apache License if not specified
@@ -56,4 +57,4 @@ Find more about this license here: ${this.link}.
     }
 }
 
-module.exports = License;
+module.exports = License; 
